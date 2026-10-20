@@ -1,0 +1,73 @@
+# Imports go at the top
+from microbit import *
+import random
+
+# make a variable for player x position, set to middle
+player_x = 2
+display.set_pixel(player_x, 4, 9)
+
+# create x and y variables for object & set to random location along the top
+object_x = (random.randrange(0, 5))
+object_y = (0)
+
+# keep track of # of frames with a frame_count variable
+frame_count = 0
+object_speed = 1
+
+# create a variable for score
+score = 0
+
+while True:
+    # if button a is pressed
+    if button_a.was_pressed() and player_x > 0:
+        player_x -= 1
+        
+    # move player (x) left
+        display.set_pixel(player_x, 4, 9)
+        display.set_pixel(player_x + 1, 4, 0)
+        
+    # if button b is pressed
+    if button_b.was_pressed() and player_x < 4:
+        player_x += 1
+        
+    # move player (x) right
+        display.set_pixel(player_x, 4, 9)
+        display.set_pixel(player_x - 1, 4, 0)
+    
+    # frame count constantly increases by one
+    frame_count += 1
+    
+    # if frames == 30, then move object down
+    print(frame_count, 30 // object_speed)
+    if frame_count == 30 // object_speed:            
+        object_y += 1
+        display.set_pixel(object_x, object_y - 1, 0)
+        
+    # reset frame count    
+        frame_count = 0
+       
+    # if the object reaches the bottom, move it back to the top randomly
+    if object_y == 5:
+        object_y = 0
+        object_x = (random.randrange(0, 5))
+        
+    # increase frame_count by 1 every loop    
+        object_speed += 1
+
+    # set a speed limit
+    if object_speed > 6:
+        object_speed = 6
+        
+    # increase score by 1 every loop
+        score += 1
+                
+    # print it out
+    display.set_pixel(object_x, object_y, 9)
+    sleep(33)
+
+    # game over sequence
+    if player_x == object_x and object_y == 4:
+        display.scroll('Game Over')
+        display.scroll('Score:')
+        display.scroll(score)
+        break
