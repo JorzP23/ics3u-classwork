@@ -21,6 +21,19 @@ display.scroll('3, 2, 1, GO!')
 player_x = 2
 display.set_pixel(player_x, 4, 9)
 
+# set amount of lives
+lives = 1
+
+# invincibility frame variable
+invincibility_frames = 0
+
+# variable to determine the type of object
+object_type = 0
+
+# brightness variables
+player_brightness = 9
+brightness = 9
+
 while True:
     # if button a is pressed
     if button_a.was_pressed() and player_x > 0:
@@ -54,9 +67,36 @@ while True:
     if object_y == 5:
         object_y = 0
         object_x = (random.randrange(0, 5))
-        
     # increase frame_count by 1 every loop    
         object_speed += 1
+        
+    # add the chance for the object to spawn as a power-up
+        spawn_chance = random.randrange(0, 100)
+        if spawn_chance < 15:
+            object_type = 2
+        elif spawn_chance < 35:
+            object_type = 1
+        else:
+            object_type = 0
+            
+    # invincibility timer
+    if invincibility_frames > 0:
+        invincibility_frames -= 1
+
+    # brighness indicator for the different object types
+    if object_type == 0:
+        brightness = 9
+    elif object_type == 1:
+        brightness = 2
+    elif object_type == 2:
+        brightness = 5
+    print(brightness)
+
+    # make player blink while invincible
+    if invincibility_frames > 0:
+        player_brightness = 9 if (frame_count % 2 == 0) else 3
+    else:
+        player_brightness = 9
 
     # set a speed limit
     if object_speed > 7:
@@ -66,13 +106,40 @@ while True:
         score += 1
                 
     # print it out
-    display.set_pixel(object_x, object_y, 9)
+    display.set_pixel(object_x, object_y, brightness)
     sleep(33)
 
-    # game over sequence
+    # power up sequences
     if player_x == object_x and object_y == 4:
-        display.scroll('HIT')
-        display.scroll('Game Over')
-        display.scroll('Score:')
-        display.scroll(score)
-        break
+        if object_type == 1:
+            lives += 1
+            object_speed += 1
+        elif object_type == 2:
+            invincibility_frames = 150
+            object_speed += 1
+        elif object_type == 0:
+            if invincibility_frames == 0:
+                lives -= 1
+                object_speed += 1
+                
+    # reset the object back to the top and reset player
+        display.set_pixel(object_x, object_y, 0)
+        object_y = 0
+        object_x = random.randrange(0, 5)
+        display.set_pixel(player_x, 4, player_brightness)
+
+    # reroll object type
+        spawn_chance = random.randrange(0, 100)
+        if spawn_chance < 15:
+            object_type = 2
+        elif spawn_chance < 35:
+            object_type = 1
+        else:
+            object_type = 0
+        
+    # game over sequence
+        if lives == 0:
+            display.scroll('Game Over')
+            display.scroll('Score:')
+            display.scroll(score)
+            break
