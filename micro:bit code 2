@@ -1,10 +1,7 @@
 # Imports go at the top
 from microbit import *
 import random
-
-# make a variable for player x position, set to middle
-player_x = 2
-display.set_pixel(player_x, 4, 9)
+import music
 
 # create x and y variables for object & set to random location along the top
 object_x = (random.randrange(0, 5))
@@ -16,6 +13,13 @@ object_speed = 1
 
 # create a variable for score
 score = 0
+
+# start countdown
+display.scroll('3, 2, 1, GO!')
+
+# make a variable for player x position, set to middle
+player_x = 2
+display.set_pixel(player_x, 4, 9)
 
 while True:
     # if button a is pressed
@@ -67,6 +71,7 @@ while True:
 
     # game over sequence
     if player_x == object_x and object_y == 4:
+        display.scroll('HIT')
         display.scroll('Game Over')
         display.scroll('Score:')
         display.scroll(score)
