@@ -100,7 +100,8 @@ while True:
     
         if blink_timer >= 3:
             player_is_visible = not player_is_visible  
-
+            blink_timer = 0
+            
         if player_is_visible:
             player_brightness = 9
         else:
