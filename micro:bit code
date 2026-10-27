@@ -33,6 +33,8 @@ object_type = 0
 # brightness variables
 player_brightness = 9
 brightness = 9
+blink_timer = 0
+player_is_visible = True
 
 while True:
     # if button a is pressed
@@ -94,7 +96,15 @@ while True:
 
     # make player blink while invincible
     if invincibility_frames > 0:
-        player_brightness = 9 if ((frame_count // 3) % 2 == 0) else 3
+        blink_timer += 1
+    
+        if blink_timer >= 3:
+            player_is_visible = not player_is_visible  
+
+        if player_is_visible:
+            player_brightness = 9
+        else:
+            player_brightness = 3
     else:
         player_brightness = 9
 
