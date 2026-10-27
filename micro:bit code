@@ -152,7 +152,7 @@ while True:
     if player_x == object_x and object_y == 4:
         if object_type == 1:
             lives += 1
-            if lives == 5:
+            if lives > 5:
                 lives = 5
             object_speed += 1
         elif object_type == 2:
