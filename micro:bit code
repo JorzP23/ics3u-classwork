@@ -110,9 +110,30 @@ while True:
     display.set_pixel(player_x, 4, player_brightness)
 
     # indicate amount of lives left on the top of the display
-    for x in range(min(lives, 5)):
-        if not (object_x == x and object_y == 0):
-            display.set_pixel(x, 0, 3)
+    if lives >= 1 and not (object_x == 0 and object_y == 0):
+        display.set_pixel(0, 0, 3)
+    elif not (object_x == 0 and object_y == 0):
+        display.set_pixel(0, 0, 0)
+
+    if lives >= 2 and not (object_x == 1 and object_y == 0):
+        display.set_pixel(1, 0, 3)
+    elif not (object_x == 1 and object_y == 0):
+        display.set_pixel(1, 0, 0)
+
+    if lives >= 3 and not (object_x == 2 and object_y == 0):
+        display.set_pixel(2, 0, 3)
+    elif not (object_x == 2 and object_y == 0):
+        display.set_pixel(2, 0, 0)
+
+    if lives >= 4 and not (object_x == 3 and object_y == 0):
+        display.set_pixel(3, 0, 3)
+    elif not (object_x == 3 and object_y == 0):
+        display.set_pixel(3, 0, 0)
+
+    if lives >= 5 and not (object_x == 4 and object_y == 0):
+        display.set_pixel(4, 0, 3)
+    elif not (object_x == 4 and object_y == 0):
+        display.set_pixel(4, 0, 0)
             
     sleep(33)
 
