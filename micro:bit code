@@ -92,7 +92,6 @@ while True:
         brightness = 2
     elif object_type == 2:
         brightness = 5
-    print(brightness)
 
     # make player blink while invincible
     if invincibility_frames > 0:
