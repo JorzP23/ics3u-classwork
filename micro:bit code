@@ -69,8 +69,12 @@ while True:
     if object_y == 5:
         object_y = 0
         object_x = (random.randrange(0, 5))
+        
     # increase frame_count by 1 every loop    
         object_speed += 1
+
+    # increase score by 1 every loop
+        score += 1
         
     # add the chance for the object to spawn as a power-up
         spawn_chance = random.randrange(0, 100)
@@ -111,9 +115,6 @@ while True:
     # set a speed limit
     if object_speed > 7:
         object_speed = 7
-        
-    # increase score by 1 every loop
-        score += 1
                 
     # print it out
     display.set_pixel(object_x, object_y, brightness)
