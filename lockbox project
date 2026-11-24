@@ -1,0 +1,23 @@
+from microbit import *
+
+# SERVO
+SERVO_LOCKED = 26
+SERVO_UNLOCKED = 128 
+
+# Password
+password = 6
+cycle = 0
+
+pin0.write_analog(SERVO_LOCKED)
+while True:
+    display.show(cycle)
+    if button_a.was_pressed():
+        cycle+=1
+    if cycle > 9:
+        cycle = 0
+    if button_b.was_pressed():
+        if cycle == 6:
+            pin0.write_analog(SERVO_UNLOCKED)
+            display.scroll("YES")
+
+
