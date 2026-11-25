@@ -7,6 +7,7 @@ SERVO_UNLOCKED = 128
 # Password
 password = 6
 guess = 0
+locked = True
 
 # startup sequence
 pin0.write_analog(SERVO_UNLOCKED)
@@ -21,14 +22,19 @@ while True:
     if guess > 9:
         guess = 0
     if button_b.was_pressed():
-        if guess == password:
-            guess = 0
-            pin0.write_analog(SERVO_UNLOCKED)
-            display.scroll("YES")
+        if locked:
+            if guess == password:
+                guess = 0
+                pin0.write_analog(SERVO_UNLOCKED)
+                display.scroll("YES")
+                locked = False
+            else:
+                display.scroll("NO")
+                sleep(500)
+        else:
             pin0.write_analog(SERVO_LOCKED)
             display.show(Image.DIAMOND)
+            locked = True
             sleep(500)
-        else:
-            display.scroll("NO")
-            sleep(500)
+        
             
