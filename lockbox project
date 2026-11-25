@@ -14,7 +14,7 @@ while True:
     if button_a.was_pressed():
         guess+=1
     if guess > 9:
-        cycle = 0
+        guess = 0
     if button_b.was_pressed():
         if guess == password:
             pin0.write_analog(SERVO_UNLOCKED)
