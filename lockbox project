@@ -6,34 +6,16 @@ SERVO_UNLOCKED = 128
 
 # Password
 password = 6
-cycle = 1
-guess_a = 0
-guess_b = 0
-guess_c = 0
-guess_d = 0
-guess = guess_a + guess_b + guess_c + guess_d
+guess = 0
 
 pin0.write_analog(SERVO_LOCKED)
 while True:
-    display.show(cycle)
+    display.show(guess)
     if button_a.was_pressed():
-        cycle+=1
-    if cycle > 9:
+        guess+=1
+    if guess > 9:
         cycle = 0
     if button_b.was_pressed():
-        if guess_a == 0:
-            guess_a += cycle * 1000
-        elif guess_b == 0:
-            guess_b += cycle * 100
-        elif guess_c == 0:
-            guess_c += cycle * 10
-        elif guess_d == 0:
-            guess_d += cycle
-            guess == True
-        guess = guess_a + guess_b + guess_c + guess_d
-        print(guess)
-    if guess_d > 0 and guess == 1123:
-        pin0.write_analog(SERVO_UNLOCKED)
-        display.scroll("YES")
-        
-   
+        if guess == password:
+            pin0.write_analog(SERVO_UNLOCKED)
+            display.scroll("YES")
