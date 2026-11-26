@@ -1,26 +1,29 @@
 from microbit import *
 
 # SERVO
-SERVO_LOCKED = 26
-SERVO_UNLOCKED = 128 
+SERVO_LOCKED = 30
+SERVO_UNLOCKED = 128
 
-# Password
+# password & choice variables
 password = 6
 guess = 0
-locked = True
 
 # startup sequence
 pin0.write_analog(SERVO_UNLOCKED)
 display.scroll("Close Lid")
 sleep(2000)
 pin0.write_analog(SERVO_LOCKED)
+locked = True
 
+# cycling numbers
 while True:
     display.show(guess)
     if button_a.was_pressed():
         guess+=1
     if guess > 9:
         guess = 0
+        
+# press b to choose number
     if button_b.was_pressed():
         if locked:
             if guess == password:
@@ -31,6 +34,8 @@ while True:
             else:
                 display.scroll("NO")
                 sleep(500)
+
+# lock with b while unlocked
         else:
             pin0.write_analog(SERVO_LOCKED)
             display.show(Image.DIAMOND)
