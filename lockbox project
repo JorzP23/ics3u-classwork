@@ -1,4 +1,6 @@
 from microbit import *
+import music
+import speech
 
 # SERVO
 SERVO_LOCKED = 30
@@ -7,39 +9,50 @@ SERVO_UNLOCKED = 128
 # password & choice variables
 password = 6
 guess = 0
+last_guess = -1
 
 # startup sequence
-pin0.write_analog(SERVO_UNLOCKED)
+pin1.set_analog_period(20)
+pin1.write_analog(SERVO_UNLOCKED)
 display.scroll("Close Lid")
 sleep(2000)
-pin0.write_analog(SERVO_LOCKED)
+pin1.write_analog(SERVO_LOCKED)
 locked = True
 
 # cycling numbers
 while True:
-    display.show(guess)
+    if guess != last_guess:
+        display.show(guess)
+        last_guess = guess
     if button_a.was_pressed():
         guess+=1
-    if guess > 9:
-        guess = 0
-        
+        music.play(music.BA_DING)
+        if guess > 9:
+            guess = 0
+            music.play(music.PUNCHLINE)
+        pin1.set_analog_period(20)
+       
 # press b to choose number
     if button_b.was_pressed():
         if locked:
             if guess == password:
                 guess = 0
-                pin0.write_analog(SERVO_UNLOCKED)
+                last_guess = -1
+                pin1.write_analog(SERVO_UNLOCKED)
                 display.scroll("YES")
                 locked = False
             else:
                 display.scroll("NO")
+                last_guess = -1
                 sleep(500)
+            pin1.set_analog_period(20)
 
 # lock with b while unlocked
         else:
-            pin0.write_analog(SERVO_LOCKED)
+            pin1.write_analog(SERVO_LOCKED)
             display.show(Image.DIAMOND)
             locked = True
             sleep(500)
+            last_guess = -1
         
             
